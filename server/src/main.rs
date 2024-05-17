@@ -1,4 +1,5 @@
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate rocket;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -7,5 +8,9 @@ fn index() -> &'static str {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+    let fidget = rocket::Config::figment()
+        .merge(("port", 8000))
+        .merge(("keep_alive", 3))
+        .merge(("address", "127.0.0.1"));
+    rocket::custom(fidget).mount("/", routes![index])
 }

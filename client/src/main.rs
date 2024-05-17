@@ -1,7 +1,10 @@
 #[tokio::main]
 async fn main() {
+    let client = reqwest::Client::new();
     loop {
-        let result = reqwest::get("http://localhost:8000/")
+        let _ = client
+            .get("http://localhost:8000/")
+            .send()
             .await
             .unwrap()
             .text()
